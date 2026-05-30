@@ -6,12 +6,15 @@
     <title>Virtual Gallery - A-Frame 3D Experience</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.0/dist/aframe-environment-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-physics-system@1.4.0/dist/aframe-physics-system.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <a-scene background="color: #000000" environment>
-        <!-- Camera with mouse look controls -->
+    <a-scene physics="debug: false; gravity: -9.8" background="color: #000000" environment>
+        <!-- Camera with mouse look controls and collision detection -->
         <a-entity camera position="0 1.6 0" wasd-controls look-controls>
+            <!-- Player collision body -->
+            <a-entity camera-collider dynamic-body="shape: sphere; sphereRadius: 0.5; mass: 0" kinematic-body></a-entity>
             <a-cursor></a-cursor>
         </a-entity>
 
@@ -19,27 +22,30 @@
         <a-light type="ambient" color="#ffffff" intensity="0.6"></a-light>
         <a-light type="directional" color="#ffffff" intensity="1" position="5 10 7"></a-light>
 
-        <!-- Gallery Walls -->
+        <!-- Gallery Walls with Collision -->
         <!-- Left Wall -->
-        <a-plane position="-5 2 0" rotation="0 90 0" width="10" height="4" color="#f0f0f0" shadow></a-plane>
+        <a-plane position="-5 2 0" rotation="0 90 0" width="10" height="4" color="#f0f0f0" shadow static-body></a-plane>
         <a-image src="#artwork1" position="-5 2 0.1" rotation="0 90 0" width="2" height="2.5" class="gallery-item"></a-image>
         <a-image src="#artwork2" position="-5 2 -2.5" rotation="0 90 0" width="2" height="2.5" class="gallery-item"></a-image>
 
         <!-- Right Wall -->
-        <a-plane position="5 2 0" rotation="0 -90 0" width="10" height="4" color="#f0f0f0" shadow></a-plane>
+        <a-plane position="5 2 0" rotation="0 -90 0" width="10" height="4" color="#f0f0f0" shadow static-body></a-plane>
         <a-image src="#artwork3" position="5 2 0.1" rotation="0 -90 0" width="2" height="2.5" class="gallery-item"></a-image>
         <a-image src="#artwork4" position="5 2 -2.5" rotation="0 -90 0" width="2" height="2.5" class="gallery-item"></a-image>
 
         <!-- Front Wall -->
-        <a-plane position="0 2 -5" width="10" height="4" color="#f0f0f0" shadow></a-plane>
+        <a-plane position="0 2 -5" width="10" height="4" color="#f0f0f0" shadow static-body></a-plane>
         <a-image src="#artwork5" position="-2 2 -5.1" width="2" height="2.5" class="gallery-item"></a-image>
         <a-image src="#artwork6" position="2 2 -5.1" width="2" height="2.5" class="gallery-item"></a-image>
 
-        <!-- Floor -->
-        <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="10" color="#cccccc" shadow></a-plane>
+        <!-- Back Wall (invisible barrier) -->
+        <a-plane position="0 2 5" width="10" height="4" color="#f0f0f0" shadow static-body visible="false"></a-plane>
 
-        <!-- Ceiling -->
-        <a-plane position="0 4 0" rotation="90 0 0" width="10" height="10" color="#ffffff" shadow></a-plane>
+        <!-- Floor -->
+        <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="10" color="#cccccc" shadow static-body></a-plane>
+
+        <!-- Ceiling (invisible but collidable) -->
+        <a-plane position="0 4 0" rotation="90 0 0" width="10" height="10" color="#ffffff" shadow static-body visible="false"></a-plane>
 
         <!-- Asset Library -->
         <a-assets>
